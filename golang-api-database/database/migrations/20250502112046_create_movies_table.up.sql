@@ -1,0 +1,25 @@
+-- +migrate Up
+CREATE TABLE IF NOT EXISTS movies (
+    adult BOOLEAN DEFAULT FALSE,
+    belongs_to_collection JSONB,
+    budget REAL DEFAULT 0,
+    homepage VARCHAR(255),
+    id INTEGER PRIMARY KEY,
+    imdb_id VARCHAR(9),
+    original_language VARCHAR(2) references languages (iso_code) on delete cascade,
+    original_title VARCHAR(255),
+    overview TEXT,
+    popularity REAL,
+    poster_path VARCHAR(255),
+    production_companies JSONB,
+    production_countries JSONB,
+    release_date DATE,
+    revenue REAL DEFAULT 0,
+    runtime REAL,
+    status VARCHAR(20),
+    tagline TEXT,
+    title VARCHAR(255),
+    video BOOLEAN DEFAULT FALSE,
+    vote_average REAL,
+    vote_count INTEGER
+);

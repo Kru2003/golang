@@ -1,0 +1,8 @@
+-- +migrate Up
+CREATE TABLE IF NOT EXISTS RATINGS (
+    user_id INTEGER NOT NULL,
+    movie_id INTEGER REFERENCES movies (id) ON DELETE CASCADE,
+    rating REAL NOT NULL CHECK (rating BETWEEN 0 AND 10),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, movie_id)
+);

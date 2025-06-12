@@ -1,0 +1,2 @@
+-- +migrate Up
+CREATE TABLE IF NOT EXISTS genres (id INTEGER PRIMARY KEY, name VARCHAR(50) NOT NULL);

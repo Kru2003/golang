@@ -1,0 +1,1118 @@
+{
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "schemes": ["http"],
+  "swagger": "2.0",
+  "info": {
+    "title": "Golang API.",
+    "version": "0.0.1-alpha"
+  },
+  "paths": {
+    "/actor/{castId}/movies": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Cast"],
+        "summary": "Retrieves all movies by cast ID.",
+        "operationId": "ListMoviesByCastId",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "CastID",
+            "name": "castId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ResponseListMoviesByCastId"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/healthz": {
+      "get": {
+        "description": "Overall health check",
+        "produces": ["application/json"],
+        "tags": ["Healthcheck"],
+        "summary": "Overall health check",
+        "operationId": "overallHealthCheck",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/healthz/db": {
+      "get": {
+        "description": "Database health check",
+        "produces": ["application/json"],
+        "tags": ["Healthcheck"],
+        "summary": "Database health check",
+        "operationId": "dbHealthCheck",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/movies": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Movies"],
+        "summary": "Retrieves a paginated list of movies.",
+        "operationId": "ListMovies",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Page",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Limit",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Name",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Genre",
+            "name": "genre",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Language",
+            "name": "language",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ResponseListMovies"
+          },
+          "401": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      },
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Movies"],
+        "summary": "Adds a new movie to the system.",
+        "operationId": "AddMovie",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "genres": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-go-name": "Genres"
+                },
+                "languages": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-go-name": "Languages"
+                },
+                "original_language": {
+                  "type": "string",
+                  "x-go-name": "OriginalLanguage"
+                },
+                "original_title": {
+                  "type": "string",
+                  "x-go-name": "OriginalTitle"
+                },
+                "overview": {
+                  "type": "string",
+                  "x-go-name": "Overview"
+                },
+                "popularity": {
+                  "type": "number",
+                  "format": "double",
+                  "x-go-name": "Popularity"
+                },
+                "release_date": {
+                  "type": "string",
+                  "x-go-name": "ReleaseDate"
+                },
+                "runtime": {
+                  "type": "number",
+                  "format": "double",
+                  "x-go-name": "Runtime"
+                },
+                "status": {
+                  "type": "string",
+                  "x-go-name": "Status"
+                },
+                "title": {
+                  "type": "string",
+                  "x-go-name": "Title"
+                },
+                "vote_average": {
+                  "type": "number",
+                  "format": "double",
+                  "x-go-name": "Vote_average"
+                },
+                "vote_count": {
+                  "type": "integer",
+                  "format": "int64",
+                  "x-go-name": "Vote_count"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "400": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/movies/{movieId}": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Movies"],
+        "summary": "Retrieves movie details by ID.",
+        "operationId": "GetMovieByID",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ResponseGetMovieByID"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      },
+      "put": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Movies"],
+        "summary": "Updates an existing movie.",
+        "operationId": "UpdateMovie",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "genres": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-go-name": "Genres"
+                },
+                "languages": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-go-name": "Languages"
+                },
+                "original_language": {
+                  "type": "string",
+                  "x-go-name": "OriginalLanguage"
+                },
+                "original_title": {
+                  "type": "string",
+                  "x-go-name": "OriginalTitle"
+                },
+                "overview": {
+                  "type": "string",
+                  "x-go-name": "Overview"
+                },
+                "popularity": {
+                  "type": "number",
+                  "format": "double",
+                  "x-go-name": "Popularity"
+                },
+                "release_date": {
+                  "type": "string",
+                  "x-go-name": "ReleaseDate"
+                },
+                "runtime": {
+                  "type": "number",
+                  "format": "double",
+                  "x-go-name": "Runtime"
+                },
+                "status": {
+                  "type": "string",
+                  "x-go-name": "Status"
+                },
+                "title": {
+                  "type": "string",
+                  "x-go-name": "Title"
+                },
+                "vote_average": {
+                  "type": "number",
+                  "format": "double",
+                  "x-go-name": "Vote_average"
+                },
+                "vote_count": {
+                  "type": "integer",
+                  "format": "int64",
+                  "x-go-name": "Vote_count"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "401": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      },
+      "delete": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Movies"],
+        "summary": "Deletes a movie from the system.",
+        "operationId": "DeleteMovieById",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "401": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/movies/{movieId}/casts": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Cast"],
+        "summary": "Retrieves cast members of a movie by ID.",
+        "operationId": "ListCastMembers",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ResponseListCastMembers"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/movies/{movieId}/credit/{creditId}/cast": {
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Cast"],
+        "summary": "Adds a cast member to a movie.",
+        "operationId": "AddMovieCastMember",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "CreditID",
+            "name": "creditId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "character": {
+                  "type": "string",
+                  "x-go-name": "Character"
+                },
+                "order": {
+                  "type": "integer",
+                  "format": "int64",
+                  "x-go-name": "Order"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "401": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/movies/{movieId}/credit/{creditId}/crew": {
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Crew"],
+        "summary": "Adds a crew member to a movie.",
+        "operationId": "AddMovieCrewMember",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "CreditID",
+            "name": "creditId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "department": {
+                  "type": "string",
+                  "x-go-name": "Department"
+                },
+                "job": {
+                  "type": "string",
+                  "x-go-name": "Job"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "401": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/movies/{movieId}/crew": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Crew"],
+        "summary": "Retrieves crew members of a movie by ID.",
+        "operationId": "ListCrewMembers",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ResponseListCrewMembers"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/movies/{movieId}/ratings": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Ratings"],
+        "summary": "Retrieves a ratings of movie by ID.",
+        "operationId": "GetRatingsByMovieId",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ResponseGetRatingsByMovieId"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/ratings/movies": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Ratings"],
+        "summary": "Retrieves a paginated ratings of movies.",
+        "operationId": "ListAllMovieRatings",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Page",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Limit",
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ResponseListAllMovieRatings"
+          },
+          "401": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/ratings/movies/{movieId}/user/{userId}/ratings": {
+      "put": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Ratings"],
+        "summary": "Updates an existing rating.",
+        "operationId": "UpdateRating",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "UserID",
+            "name": "userId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rating": {
+                  "type": "number",
+                  "format": "float",
+                  "x-go-name": "Rating"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "401": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      },
+      "delete": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Ratings"],
+        "summary": "Deletes rating of a movie from the system.",
+        "operationId": "DeleteRating",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "MovieID",
+            "name": "movieId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "UserID",
+            "name": "userId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "401": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/GenericResFailNotFound"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    },
+    "/ratings/user/{userId}/ratings": {
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["Ratings"],
+        "summary": "Adds a new ratings of a movie to the system.",
+        "operationId": "AddRating",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "UserID",
+            "name": "userId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "movieId": {
+                  "type": "integer",
+                  "format": "int64",
+                  "x-go-name": "MovieID"
+                },
+                "rating": {
+                  "type": "number",
+                  "format": "float",
+                  "x-go-name": "Rating"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GenericResOk"
+          },
+          "401": {
+            "$ref": "#/responses/GenericResFailBadRequest"
+          },
+          "500": {
+            "$ref": "#/responses/GenericResError"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ActorWithMovies": {
+      "type": "object",
+      "properties": {
+        "actor": {
+          "type": "string",
+          "x-go-name": "ActorName"
+        },
+        "movies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Movies"
+        }
+      },
+      "x-go-package": "git.pride.improwised.dev/Onboarding-2025/Krupanshi-Vaishnav/go-api/models"
+    },
+    "Movie": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "imdb_id": {
+          "type": "string",
+          "x-go-name": "IMDB_ID"
+        },
+        "original_language": {
+          "type": "string",
+          "x-go-name": "OriginalLanguage"
+        },
+        "original_title": {
+          "type": "string",
+          "x-go-name": "OriginalTitle"
+        },
+        "overview": {
+          "type": "string",
+          "x-go-name": "Overview"
+        },
+        "popularity": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Popularity"
+        },
+        "release_date": {
+          "type": "string",
+          "x-go-name": "ReleaseDate"
+        },
+        "runtime": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Runtime"
+        },
+        "status": {
+          "type": "string",
+          "x-go-name": "Status"
+        },
+        "tagline": {
+          "type": "string",
+          "x-go-name": "Tagline"
+        },
+        "title": {
+          "type": "string",
+          "x-go-name": "Title"
+        },
+        "vote_average": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Vote_average"
+        },
+        "vote_count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Vote_count"
+        }
+      },
+      "x-go-package": "git.pride.improwised.dev/Onboarding-2025/Krupanshi-Vaishnav/go-api/models"
+    },
+    "MovieCast": {
+      "type": "object",
+      "properties": {
+        "CastID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Character": {
+          "type": "string"
+        },
+        "CreditID": {
+          "type": "string"
+        },
+        "MovieID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Order": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "PersonID": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "x-go-package": "git.pride.improwised.dev/Onboarding-2025/Krupanshi-Vaishnav/go-api/models"
+    },
+    "MovieCrew": {
+      "type": "object",
+      "properties": {
+        "CreditID": {
+          "type": "string"
+        },
+        "Department": {
+          "type": "string"
+        },
+        "Job": {
+          "type": "string"
+        },
+        "MovieID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "PersonID": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "x-go-package": "git.pride.improwised.dev/Onboarding-2025/Krupanshi-Vaishnav/go-api/models"
+    },
+    "MovieRating": {
+      "type": "object",
+      "properties": {
+        "MovieId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "Title": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "git.pride.improwised.dev/Onboarding-2025/Krupanshi-Vaishnav/go-api/models"
+    }
+  },
+  "responses": {
+    "GenericResError": {
+      "description": "Unexpected error occurred",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "x-go-name": "Data"
+          },
+          "message": {
+            "type": "string",
+            "x-go-name": "Message"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["error"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "GenericResFailBadRequest": {
+      "description": "Fail due to user invalid input",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "x-go-name": "Data"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["fail"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "GenericResFailNotFound": {
+      "description": "Fail due to resource not exists",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "x-go-name": "Data"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["fail"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "GenericResOk": {
+      "description": "Response is okay",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["success"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "ResponseGetMovieByID": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/definitions/Movie"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "ResponseGetRatingsByMovieId": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/definitions/MovieRating"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "ResponseListAllMovieRatings": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/MovieRating"
+            },
+            "x-go-name": "Data"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "ResponseListCastMembers": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/MovieCast"
+            },
+            "x-go-name": "Data"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "ResponseListCrewMembers": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/MovieCrew"
+            },
+            "x-go-name": "Data"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "ResponseListMovies": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Movie"
+            },
+            "x-go-name": "Data"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    },
+    "ResponseListMoviesByCastId": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/definitions/ActorWithMovies"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success"],
+            "x-go-name": "Status"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "level": "error",
+    "ts": "2025-03-05T09:30:45.789Z",
+    "caller": "database.go:67",
+    "msg": "Database connection failed",
+    "error": "timeout",
+    "stacktrace": "stacktrace-details-here"
+  },
+  {
+    "level": "error",
+    "ts": "2025-03-05T16:30:18.564Z",
+    "caller": "db.go:78",
+    "msg": "Database connection failed",
+    "error": "invalid credentials"
+  },
+  {
+    "level": "error",
+    "ts": "2025-03-05T18:45:22.432Z",
+    "caller": "database.go:67",
+    "msg": "Database connection failed",
+    "error": "network issue",
+    "stacktrace": "stacktrace-details-here"
+  },
+  {
+    "level": "error",
+    "ts": "2025-03-05T20:15:37.891Z",
+    "caller": "database.go:67",
+    "msg": "Database connection failed",
+    "error": "timeout",
+    "stacktrace": "stacktrace-details-here"
+  },
+  {
+    "level": "info",
+    "ts": "2025-03-05T15:40:05.876Z",
+    "caller": "backup.go:47",
+    "msg": "Database backup completed",
+    "size_mb": 1532.75
+  },
+  {
+    "level": "info",
+    "ts": "2025-03-05T21:10:14.321Z",
+    "caller": "backup.go:47",
+    "msg": "Database backup completed",
+    "size_mb": 2104.3
+  },
+  {
+    "level": "warning",
+    "ts": "2025-03-05T22:05:12.654Z",
+    "caller": "query.go:101",
+    "msg": "Slow query detected",
+    "query": "SELECT * FROM users WHERE last_login > '2025-01-01'",
+    "execution_time_ms": 5123
+  },
+  {
+    "level": "warning",
+    "ts": "2025-03-05T23:15:45.123Z",
+    "caller": "query.go:105",
+    "msg": "Slow query detected",
+    "query": "UPDATE orders SET status='shipped' WHERE processed=0",
+    "execution_time_ms": 7302
+  },
+  {
+    "level": "error",
+    "ts": "2025-03-06T01:05:27.876Z",
+    "caller": "replication.go:58",
+    "msg": "Database replication failed",
+    "replica": "replica-db-2",
+    "error": "lag exceeded threshold"
+  },
+  {
+    "level": "info",
+    "ts": "2025-03-06T02:45:39.456Z",
+    "caller": "migration.go:30",
+    "msg": "Database migration completed",
+    "migrations_applied": 5
+  },
+  {
+    "level": "warning",
+    "ts": "2025-03-06T03:10:50.789Z",
+    "caller": "connection_pool.go:78",
+    "msg": "Connection pool limit reached",
+    "active_connections": 100,
+    "max_connections": 100
+  }
+]
